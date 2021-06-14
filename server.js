@@ -8,6 +8,7 @@ const connectDB = require('./config/database')
 const authRoutes = require('./routes/auth')
 const homeRoutes = require('./routes/home')
 const todoRoutes = require('./routes/todos')
+var Client = require("dwolla-v2").Client;
 
 require('dotenv').config({path: './config/.env'})
 
@@ -30,6 +31,21 @@ app.use(
       store: new MongoStore({ mongooseConnection: mongoose.connection }),
     })
   )
+  
+  // Dwolla session 
+  var dwolla = new Client({
+    key: mJEOC159epPybuC5AGa1KKHABuNzd55JbBsYfUFiqa6KIogvOd,
+    secret: JQBiqoqyffnK5l1S2ITvcYRdG5tXOeD1EdJzp5y3r1bgX08ca6,
+    environment: "sandbox", // defaults to 'production'
+  })
+
+  dwolla
+  .post("customers", {
+    firstName: "Jane",
+    lastName: "Doe",
+    email: "jane@doe.com",
+  })
+  .then((res) => console.log(res.headers.get("location")));
   
 // Passport middleware
 app.use(passport.initialize())
