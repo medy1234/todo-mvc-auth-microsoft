@@ -1,3 +1,5 @@
+// this file alllows me to connect to my mongoose database
+// monogo db holds data mongo atlas to hosts database
 const mongoose = require('mongoose')
 
 const connectDB = async () => {
